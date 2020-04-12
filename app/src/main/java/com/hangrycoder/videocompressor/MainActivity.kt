@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import kotlinx.android.synthetic.main.activity_main.*
@@ -63,15 +62,12 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_ALL) {
             for (i in permissions.indices) {
-                Log.v(TAG, "Permission: " + permissions[i] + " was " + grantResults[i])
                 fetchVideoFromGallery()
             }
         }
     }
 
     companion object {
-
-        private var TAG = MainActivity::class.java.simpleName
         private val PERMISSIONS = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
