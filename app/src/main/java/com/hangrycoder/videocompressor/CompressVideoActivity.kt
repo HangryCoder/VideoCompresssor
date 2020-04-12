@@ -91,10 +91,7 @@ class CompressVideoActivity : AppCompatActivity() {
         if (!compressedVideosFolder.exists()) {
             compressedVideosFolder.mkdirs()
         }
-
-        val outputFileAbsolutePath = /*getExternalFilesDir(null)?.path +
-                OUTPUT_FILE_DIRECTORY_NAME +*/
-            compressedVideosFolder.absolutePath + File.separator.toString() + "abc.mp4"
+        val outputFileAbsolutePath = compressedVideosFolder.absolutePath + File.separator.toString() + "abc.mp4"
 
         Log.e(TAG, "Output File $outputFileAbsolutePath")
 
