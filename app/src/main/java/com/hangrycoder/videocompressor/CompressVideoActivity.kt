@@ -6,7 +6,7 @@ import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_play_video.*
 
-class PlayVideoScreen : AppCompatActivity() {
+class CompressVideoActivity : AppCompatActivity() {
 
     private var videoUri: Uri? = null
 

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.hangrycoder.videocompressor.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -44,8 +43,8 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == REQUEST_GALLERY_VIDEO) {
                 val selectedImageUri = data?.data
 
-                startActivity(Intent(this, PlayVideoScreen::class.java).apply {
-                    putExtra(PlayVideoScreen.INTENT_VIDEO_URI, selectedImageUri.toString())
+                startActivity(Intent(this, CompressVideoActivity::class.java).apply {
+                    putExtra(CompressVideoActivity.INTENT_VIDEO_URI, selectedImageUri.toString())
                 })
             }
         }
