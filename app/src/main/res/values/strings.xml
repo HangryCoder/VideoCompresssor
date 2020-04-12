@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">VideoCompressor</string>
     <string name="select_video">Select Video</string>
+    <string name="enter_bitrate">Enter Bitrate</string>
+    <string name="compress_video">Compress Video</string>
 </resources>
