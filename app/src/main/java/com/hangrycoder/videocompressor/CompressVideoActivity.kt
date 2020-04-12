@@ -4,6 +4,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg
+import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
 import kotlinx.android.synthetic.main.activity_play_video.*
 
 class CompressVideoActivity : AppCompatActivity() {
@@ -22,6 +24,26 @@ class CompressVideoActivity : AppCompatActivity() {
         videoView.setVideoURI(videoUri)
         videoView.requestFocus()
         videoView.start()
+
+        compressVideoButton.setOnClickListener {
+
+            val ffmpeg = FFmpeg.getInstance(this)
+            ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
+                override fun onFinish() {
+
+                }
+
+                override fun onSuccess() {
+                }
+
+                override fun onFailure() {
+                }
+
+                override fun onStart() {
+
+                }
+            })
+        }
     }
 
     companion object {
