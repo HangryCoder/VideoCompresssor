@@ -42,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:alpha="@{inputBitrate.text.length() > 0 ? 1.0f : 0.5f}"
             android:enabled="@{inputBitrate.text.length() > 0, default=false}"
             android:hint="@string/compress_video"
             app:layout_constraintEnd_toEndOf="@+id/inputBitrate"
