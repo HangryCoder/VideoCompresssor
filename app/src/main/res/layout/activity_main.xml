@@ -8,6 +8,7 @@
 
     <Button
         android:layout_width="wrap_content"
+        android:id="@+id/selectVideoButton"
         android:layout_height="wrap_content"
         android:text="@string/select_video"
         app:layout_constraintBottom_toBottomOf="parent"
