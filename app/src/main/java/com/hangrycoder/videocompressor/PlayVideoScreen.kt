@@ -8,18 +8,23 @@ import kotlinx.android.synthetic.main.activity_play_video.*
 
 class PlayVideoScreen : AppCompatActivity() {
 
+    private var videoUri: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_video)
 
+        videoUri = Uri.parse(intent.extras?.getString(INTENT_VIDEO_URI))
+
         val mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
-        val uri: Uri = Uri.parse(
-            getExternalFilesDir(null)?.path + "/KrupaUke.mp4"
-        )
         videoView.setMediaController(mediaController)
-        videoView.setVideoURI(uri)
+        videoView.setVideoURI(videoUri)
         videoView.requestFocus()
         videoView.start()
+    }
+
+    companion object {
+        const val INTENT_VIDEO_URI = "video_uri"
     }
 }

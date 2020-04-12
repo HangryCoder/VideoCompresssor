@@ -11,7 +11,6 @@ import androidx.core.app.ActivityCompat
 import com.hangrycoder.videocompressor.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +44,9 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == REQUEST_GALLERY_VIDEO) {
                 val selectedImageUri = data?.data
 
-                val selectedImagePath = UriUtils.getRealPathFromUri(this, selectedImageUri)
-                Log.e(TAG, "$selectedImagePath")
-
+                startActivity(Intent(this, PlayVideoScreen::class.java).apply {
+                    putExtra(PlayVideoScreen.INTENT_VIDEO_URI, selectedImageUri.toString())
+                })
             }
         }
     }
