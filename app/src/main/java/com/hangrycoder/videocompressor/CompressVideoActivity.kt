@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
+import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.UriUtils
-import kotlinx.android.synthetic.main.activity_play_video.*
+import kotlinx.android.synthetic.main.activity_compress_video.*
 
 class CompressVideoActivity : AppCompatActivity() {
 
@@ -21,7 +23,10 @@ class CompressVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_play_video)
+        //setContentView(R.layout.activity_play_video)
+        val binding = DataBindingUtil.setContentView<ActivityCompressVideoBindingImpl>(
+            this, R.layout.activity_compress_video
+        )
 
         setIntentParams()
         playVideo()
