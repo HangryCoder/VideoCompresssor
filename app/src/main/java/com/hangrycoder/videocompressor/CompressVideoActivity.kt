@@ -3,7 +3,6 @@ package com.hangrycoder.videocompressor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -46,7 +45,7 @@ class CompressVideoActivity : AppCompatActivity() {
 
     private fun setIntentParams() {
         videoUri = Uri.parse(intent.extras?.getString(INTENT_VIDEO_URI))
-        Log.e(TAG, "VideoUri ${UriUtils.getImageFilePath(this, videoUri)}")
+        Util.showLogE(TAG, "VideoUri ${UriUtils.getImageFilePath(this, videoUri)}")
     }
 
     private fun playVideo() {
@@ -63,15 +62,15 @@ class CompressVideoActivity : AppCompatActivity() {
         try {
             ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
                 override fun onFinish() {
-                    Log.e(TAG, "FFMPEG onFinish")
+                    Util.showLogE(TAG, "FFMPEG onFinish")
                 }
 
                 override fun onSuccess() {
-                    Log.e(TAG, "FFMPEG onSuccess")
+                    Util.showLogE(TAG, "FFMPEG onSuccess")
                 }
 
                 override fun onFailure() {
-                    Log.e(TAG, "FFMPEG onFailure")
+                    Util.showLogE(TAG, "FFMPEG onFailure")
                 }
 
                 override fun onStart() {
@@ -79,7 +78,7 @@ class CompressVideoActivity : AppCompatActivity() {
                 }
             })
         } catch (exception: FFmpegCommandAlreadyRunningException) {
-            Log.e(TAG, "FFMPEG Exception ${exception.printStackTrace()}")
+            Util.showLogE(TAG, "FFMPEG Exception ${exception.printStackTrace()}")
         }
     }
 
@@ -91,9 +90,11 @@ class CompressVideoActivity : AppCompatActivity() {
         if (!compressedVideosFolder.exists()) {
             compressedVideosFolder.mkdirs()
         }
-        val outputFileAbsolutePath = compressedVideosFolder.absolutePath + File.separator.toString() + "abc.mp4"
+        val outputFileAbsolutePath = compressedVideosFolder.absolutePath +
+                File.separator.toString() +
+                System.currentTimeMillis() + ".mp4"
 
-        Log.e(TAG, "Output File $outputFileAbsolutePath")
+        Util.showLogE(TAG, "Output File $outputFileAbsolutePath")
 
         val command = arrayOf(
             "-y",
@@ -120,18 +121,18 @@ class CompressVideoActivity : AppCompatActivity() {
         ffmpeg.execute(command, object : ExecuteBinaryResponseHandler() {
             override fun onFinish() {
                 super.onFinish()
-                Log.e(TAG, "Execute onFinish")
+                Util.showLogE(TAG, "Execute onFinish")
             }
 
             override fun onSuccess(message: String?) {
                 super.onSuccess(message)
-                Log.e(TAG, "Execute onSuccess")
+                Util.showLogE(TAG, "Execute onSuccess")
                 Util.showToast(applicationContext, "Video compressed successfully")
             }
 
             override fun onFailure(message: String?) {
                 super.onFailure(message)
-                Log.e(TAG, "Execute onFailure $message")
+                Util.showLogE(TAG, "Execute onFailure $message")
                 Util.showToast(applicationContext, "Video compression failed")
             }
 
