@@ -74,7 +74,7 @@ class CompressVideoActivity : AppCompatActivity() {
     private fun executeFFMPEGCommandToCompressVideo() {
 
         val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
-
+        val bitrate = inputBitrate.text.toString() + "k"
         val command = arrayOf(
             "-y",
             "-i",
@@ -86,7 +86,8 @@ class CompressVideoActivity : AppCompatActivity() {
             "-vcodec",
             "mpeg4",
             "-b:v",
-            "150k",
+            bitrate,
+            //"150k",
             "-b:a",
             "48000",
             "-ac",
