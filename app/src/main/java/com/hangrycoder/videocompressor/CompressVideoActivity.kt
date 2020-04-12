@@ -2,6 +2,7 @@ package com.hangrycoder.videocompressor
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
@@ -13,13 +14,16 @@ import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunnin
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_compress_video.*
+import java.io.File
 
 class CompressVideoActivity : AppCompatActivity() {
 
     private val TAG = CompressVideoActivity::class.java.simpleName
     private var videoUri: Uri? = null
     private lateinit var ffmpeg: FFmpeg
-    private val outputFileAbsolutePath = "/storage/emulated/0/abc.mp4"
+    private var compressedVideosFolder: File = File(
+        Environment.getExternalStorageDirectory().path + File.separator.toString() + OUTPUT_FILE_DIRECTORY_NAME
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +86,17 @@ class CompressVideoActivity : AppCompatActivity() {
 
         val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
         val bitrate = inputBitrate.text.toString() + "k"
+
+        if (!compressedVideosFolder.exists()) {
+            compressedVideosFolder.mkdirs()
+        }
+
+        val outputFileAbsolutePath = /*getExternalFilesDir(null)?.path +
+                OUTPUT_FILE_DIRECTORY_NAME +*/
+            compressedVideosFolder.absolutePath + File.separator.toString() + "abc.mp4"
+
+        Log.e(TAG, "Output File $outputFileAbsolutePath")
+
         val command = arrayOf(
             "-y",
             "-i",
@@ -131,6 +146,7 @@ class CompressVideoActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val OUTPUT_FILE_DIRECTORY_NAME = "CompressedVideos"
         const val INTENT_VIDEO_URI = "video_uri"
     }
 }
