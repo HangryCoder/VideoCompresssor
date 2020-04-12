@@ -79,6 +79,8 @@ class CompressVideoActivity : AppCompatActivity() {
             "-y",
             "-i",
             inputFilePath,
+            "-s",
+            "160x120",
             "-r",
             "25",
             "-vcodec",
