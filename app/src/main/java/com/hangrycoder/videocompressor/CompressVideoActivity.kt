@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.hangrycoder.videocompressor.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_play_video.*
 
@@ -47,31 +48,37 @@ class CompressVideoActivity : AppCompatActivity() {
 
     private fun setupFFMPEG() {
         ffmpeg = FFmpeg.getInstance(this)
-        ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
-            override fun onFinish() {
-                Log.e(TAG, "FFMPEG onFinish")
-            }
+        try {
+            ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
+                override fun onFinish() {
+                    Log.e(TAG, "FFMPEG onFinish")
+                }
 
-            override fun onSuccess() {
-                Log.e(TAG, "FFMPEG onSuccess")
-            }
+                override fun onSuccess() {
+                    Log.e(TAG, "FFMPEG onSuccess")
+                }
 
-            override fun onFailure() {
-                Log.e(TAG, "FFMPEG onFailure")
-            }
+                override fun onFailure() {
+                    Log.e(TAG, "FFMPEG onFailure")
+                }
 
-            override fun onStart() {
+                override fun onStart() {
 
-            }
-        })
+                }
+            })
+        } catch (exception: FFmpegCommandAlreadyRunningException) {
+            Log.e(TAG, "FFMPEG Exception ${exception.printStackTrace()}")
+        }
     }
 
     private fun executeFFMPEGCommandToCompressVideo() {
 
+        val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
+
         val command = arrayOf(
             "-y",
             "-i",
-            videoUri.toString(),
+            inputFilePath,
             "-s",
             "160x120",
             "-r",
@@ -102,7 +109,7 @@ class CompressVideoActivity : AppCompatActivity() {
 
             override fun onFailure(message: String?) {
                 super.onFailure(message)
-                Log.e(TAG, "Execute onFailure")
+                Log.e(TAG, "Execute onFailure $message")
             }
 
             override fun onProgress(message: String?) {
