@@ -13,6 +13,7 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.UriUtils
+import com.hangrycoder.videocompressor.utils.Util
 import kotlinx.android.synthetic.main.activity_compress_video.*
 import java.io.File
 
@@ -128,11 +129,13 @@ class CompressVideoActivity : AppCompatActivity() {
             override fun onSuccess(message: String?) {
                 super.onSuccess(message)
                 Log.e(TAG, "Execute onSuccess")
+                Util.showToast(applicationContext, "Video compressed successfully")
             }
 
             override fun onFailure(message: String?) {
                 super.onFailure(message)
                 Log.e(TAG, "Execute onFailure $message")
+                Util.showToast(applicationContext, "Video compression failed")
             }
 
             override fun onProgress(message: String?) {
