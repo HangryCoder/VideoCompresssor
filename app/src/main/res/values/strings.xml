@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VideoCompressor</string>
+    <string name="select_video">Select Video</string>
 </resources>
