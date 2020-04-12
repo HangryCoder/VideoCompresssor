@@ -8,12 +8,12 @@ import android.provider.MediaStore
 object UriUtils {
     fun getRealPathFromUri(context: Context, contentUri: Uri?): String? {
         var cursor: Cursor? = null
-        return try {
-            val projection = arrayOf(MediaStore.Images.Media.DATA)
+        try {
+            val projection = arrayOf(MediaStore.Video.Media.DATA)
             cursor = context.contentResolver.query(contentUri!!, projection, null, null, null)
-            val columnIndex: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            val columnIndex: Int? = cursor?.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
             cursor?.moveToFirst()
-            cursor?.getString(columnIndex!!)
+            return cursor?.getString(columnIndex!!)
         } finally {
             cursor?.close()
         }
