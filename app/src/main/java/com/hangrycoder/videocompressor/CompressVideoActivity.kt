@@ -2,48 +2,115 @@ package com.hangrycoder.videocompressor
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
+import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
 import kotlinx.android.synthetic.main.activity_play_video.*
 
 class CompressVideoActivity : AppCompatActivity() {
 
+    private val TAG = CompressVideoActivity::class.java.simpleName
     private var videoUri: Uri? = null
+    private lateinit var ffmpeg: FFmpeg
+    private val outputFileAbsolutePath = "/storage/emulated/0/abc.mp4"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_video)
 
-        videoUri = Uri.parse(intent.extras?.getString(INTENT_VIDEO_URI))
+        setIntentParams()
+        playVideo()
+        setupFFMPEG()
 
+        compressVideoButton.setOnClickListener {
+            executeFFMPEGCommandToCompressVideo()
+        }
+    }
+
+    private fun setIntentParams() {
+        videoUri = Uri.parse(intent.extras?.getString(INTENT_VIDEO_URI))
+    }
+
+    private fun playVideo() {
         val mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
         videoView.setMediaController(mediaController)
         videoView.setVideoURI(videoUri)
         videoView.requestFocus()
         videoView.start()
+    }
 
-        compressVideoButton.setOnClickListener {
+    private fun setupFFMPEG() {
+        ffmpeg = FFmpeg.getInstance(this)
+        ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
+            override fun onFinish() {
+                Log.e(TAG,"FFMPEG onFinish")
+            }
 
-            val ffmpeg = FFmpeg.getInstance(this)
-            ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
-                override fun onFinish() {
+            override fun onSuccess() {
+                Log.e(TAG,"FFMPEG onSuccess")
+            }
 
-                }
+            override fun onFailure() {
+                Log.e(TAG,"FFMPEG onFailure")
+            }
 
-                override fun onSuccess() {
-                }
+            override fun onStart() {
 
-                override fun onFailure() {
-                }
+            }
+        })
+    }
 
-                override fun onStart() {
+    private fun executeFFMPEGCommandToCompressVideo() {
 
-                }
-            })
-        }
+        val command = arrayOf(
+            "-y",
+            "-i",
+            videoUri.toString(),
+            "-s",
+            "160x120",
+            "-r",
+            "25",
+            "-vcodec",
+            "mpeg4",
+            "-b:v",
+            "150k",
+            "-b:a",
+            "48000",
+            "-ac",
+            "2",
+            "-ar",
+            "22050",
+            outputFileAbsolutePath
+        )
+
+        ffmpeg.execute(command, object : ExecuteBinaryResponseHandler() {
+            override fun onFinish() {
+                super.onFinish()
+                Log.e(TAG,"Execute onFinish")
+            }
+
+            override fun onSuccess(message: String?) {
+                super.onSuccess(message)
+                Log.e(TAG,"Execute onSuccess")
+            }
+
+            override fun onFailure(message: String?) {
+                super.onFailure(message)
+                Log.e(TAG,"Execute onFailure")
+            }
+
+            override fun onProgress(message: String?) {
+                super.onProgress(message)
+            }
+
+            override fun onStart() {
+                super.onStart()
+            }
+        })
     }
 
     companion object {
