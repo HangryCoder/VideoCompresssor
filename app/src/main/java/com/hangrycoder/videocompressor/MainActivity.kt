@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 false
             }
-        } else { //permission is automatically granted on sdk<23 upon installation
+        } else {
             Log.v(TAG, "Permission is granted")
             true
         }
