@@ -16,6 +16,7 @@ import com.hangrycoder.videocompressor.R
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.UriUtils
 import com.hangrycoder.videocompressor.utils.Util
+import com.hangrycoder.videocompressor.utils.VideoCompression
 import kotlinx.android.synthetic.main.activity_compress_video.*
 import java.io.File
 
@@ -23,10 +24,14 @@ class CompressVideoActivity : AppCompatActivity() {
 
     private val TAG = CompressVideoActivity::class.java.simpleName
     private var videoUri: Uri? = null
+
     private lateinit var ffmpeg: FFmpeg
     private var compressedVideosFolder: File = File(
         Environment.getExternalStorageDirectory().path + File.separator.toString() + OUTPUT_FILE_DIRECTORY_NAME
     )
+    val outputFileAbsolutePath = compressedVideosFolder.absolutePath +
+            File.separator.toString() +
+            System.currentTimeMillis() + ".mp4"
     private val progressDialog: ProgressDialog by lazy {
         ProgressDialog(this).apply {
             setMessage("Video compression is in progress. Please wait :)")
@@ -35,15 +40,64 @@ class CompressVideoActivity : AppCompatActivity() {
         }
     }
 
+    private val videoCompression: VideoCompression by lazy {
+        VideoCompression(this, object : VideoCompression.CompressionCallbacks {
+            override fun onStart() {
+                showLoader()
+            }
+
+            override fun onFinish() {
+                hideLoader()
+            }
+
+            override fun onSuccess() {
+                Util.showToast(applicationContext, "Video compressed successfully")
+
+                startActivity(
+                    Intent(
+                        this@CompressVideoActivity,
+                        PlayCompressedVideoActivity::class.java
+                    ).apply {
+                        putExtra(
+                            PlayCompressedVideoActivity.INTENT_COMPRESSED_VIDEO_PATH,
+                            outputFileAbsolutePath
+                        )
+                    })
+                finish()
+            }
+
+            override fun onFailure() {
+                Util.showToast(applicationContext, "Video compression failed")
+            }
+
+        })
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDataBinding()
         setIntentParams()
         playVideo()
-        setupFFMPEG()
+        //setupFFMPEG()
 
         compressVideoButton.setOnClickListener {
-            executeFFMPEGCommandToCompressVideo()
+            //executeFFMPEGCommandToCompressVideo()
+            val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
+
+            inputFilePath ?: return@setOnClickListener
+
+            if (!compressedVideosFolder.exists()) {
+                compressedVideosFolder.mkdirs()
+            }
+
+
+            Util.showLogE(TAG, "Output File $outputFileAbsolutePath")
+
+            videoCompression.compressVideo(
+                bitrate = inputBitrate.text.toString(),
+                inputFilePath = inputFilePath,
+                outputFilePath = outputFileAbsolutePath
+            )
         }
     }
 
