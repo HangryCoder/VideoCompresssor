@@ -39,21 +39,8 @@ class VideoCompression(context: Context, private val compressionCallbacks: Compr
             "-y",
             "-i",
             inputFilePath,
-            "-s",
-            "160x120",
-            "-r",
-            "25",
-            "-vcodec",
-            "mpeg4",
             "-b:v",
             bitrate + "k",
-            //"150k",
-            "-b:a",
-            "48000",
-            "-ac",
-            "2",
-            "-ar",
-            "22050",
             outputFilePath
         )
 
