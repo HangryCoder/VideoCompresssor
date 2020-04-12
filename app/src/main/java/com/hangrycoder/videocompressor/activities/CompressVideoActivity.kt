@@ -27,7 +27,8 @@ class CompressVideoActivity : AppCompatActivity() {
     )
     val outputFileAbsolutePath = compressedVideosFolder.absolutePath +
             File.separator.toString() +
-            System.currentTimeMillis() + ".mp4"
+            System.currentTimeMillis() + FILE_EXTENTION
+
     private val progressDialog: ProgressDialog by lazy {
         ProgressDialog(this).apply {
             setMessage("Video compression is in progress. Please wait :)")
@@ -118,6 +119,7 @@ class CompressVideoActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val FILE_EXTENTION = ".mp4"
         const val OUTPUT_FILE_DIRECTORY_NAME = "CompressedVideos"
         const val INTENT_VIDEO_URI = "video_uri"
     }
