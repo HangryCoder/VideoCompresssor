@@ -4,4 +4,5 @@
     <string name="enter_bitrate">Enter Bitrate</string>
     <string name="compress_video">Compress Video</string>
     <string name="enter_bitrate_in_kbps">Enter bitrate in kbps</string>
+    <string name="video_compression_successful">Video compression successful! :)</string>
 </resources>
