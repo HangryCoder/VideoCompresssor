@@ -23,11 +23,7 @@ class CompressVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_play_video)
-        val binding = DataBindingUtil.setContentView<ActivityCompressVideoBindingImpl>(
-            this, R.layout.activity_compress_video
-        )
-
+        initDataBinding()
         setIntentParams()
         playVideo()
         setupFFMPEG()
@@ -35,6 +31,12 @@ class CompressVideoActivity : AppCompatActivity() {
         compressVideoButton.setOnClickListener {
             executeFFMPEGCommandToCompressVideo()
         }
+    }
+
+    private fun initDataBinding() {
+        DataBindingUtil.setContentView<ActivityCompressVideoBindingImpl>(
+            this, R.layout.activity_compress_video
+        )
     }
 
     private fun setIntentParams() {
