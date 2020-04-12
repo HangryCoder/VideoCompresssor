@@ -1,5 +1,6 @@
 package com.hangrycoder.videocompressor.activities
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -26,6 +27,13 @@ class CompressVideoActivity : AppCompatActivity() {
     private var compressedVideosFolder: File = File(
         Environment.getExternalStorageDirectory().path + File.separator.toString() + OUTPUT_FILE_DIRECTORY_NAME
     )
+    private val progressDialog: ProgressDialog by lazy {
+        ProgressDialog(this).apply {
+            setMessage("Video compression is in progress. Please wait :)")
+            setCanceledOnTouchOutside(false)
+            setCancelable(false)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,17 +131,23 @@ class CompressVideoActivity : AppCompatActivity() {
         ffmpeg.execute(command, object : ExecuteBinaryResponseHandler() {
             override fun onFinish() {
                 super.onFinish()
-                Util.showLogE(TAG, "Execute onFinish")
+                hideLoader()
             }
 
             override fun onSuccess(message: String?) {
                 super.onSuccess(message)
-                Util.showLogE(TAG, "Execute onSuccess")
                 Util.showToast(applicationContext, "Video compressed successfully")
 
-                startActivity(Intent(this@CompressVideoActivity, PlayCompressedVideoActivity::class.java).apply {
-                    putExtra(PlayCompressedVideoActivity.INTENT_COMPRESSED_VIDEO_PATH, outputFileAbsolutePath)
-                })
+                startActivity(
+                    Intent(
+                        this@CompressVideoActivity,
+                        PlayCompressedVideoActivity::class.java
+                    ).apply {
+                        putExtra(
+                            PlayCompressedVideoActivity.INTENT_COMPRESSED_VIDEO_PATH,
+                            outputFileAbsolutePath
+                        )
+                    })
                 finish()
             }
 
@@ -143,14 +157,19 @@ class CompressVideoActivity : AppCompatActivity() {
                 Util.showToast(applicationContext, "Video compression failed")
             }
 
-            override fun onProgress(message: String?) {
-                super.onProgress(message)
-            }
-
             override fun onStart() {
                 super.onStart()
+                showLoader()
             }
         })
+    }
+
+    private fun hideLoader() {
+        progressDialog.dismiss()
+    }
+
+    private fun showLoader() {
+        progressDialog.show()
     }
 
     companion object {
