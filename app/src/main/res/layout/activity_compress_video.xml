@@ -16,16 +16,26 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
-            android:id="@+id/inputBitrate"
+        <TextView
+            android:id="@+id/enterBitrateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/enter_bitrate"
-            android:inputType="number"
+            android:layout_marginTop="24dp"
+            android:text="@string/enter_bitrate_in_kbps"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
+        <EditText
+            android:id="@+id/inputBitrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/enterBitrateTextView"
+            app:layout_constraintStart_toStartOf="@+id/enterBitrateTextView"
+            app:layout_constraintTop_toBottomOf="@+id/enterBitrateTextView" />
 
         <Button
             android:id="@+id/compressVideoButton"
