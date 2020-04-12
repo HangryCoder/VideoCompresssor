@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
+import com.hangrycoder.videocompressor.utils.UriUtils
 import kotlinx.android.synthetic.main.activity_play_video.*
 
 class CompressVideoActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class CompressVideoActivity : AppCompatActivity() {
 
     private fun setIntentParams() {
         videoUri = Uri.parse(intent.extras?.getString(INTENT_VIDEO_URI))
+        Log.e(TAG, "VideoUri ${UriUtils.getImageFilePath(this, videoUri)}")
     }
 
     private fun playVideo() {
@@ -47,15 +49,15 @@ class CompressVideoActivity : AppCompatActivity() {
         ffmpeg = FFmpeg.getInstance(this)
         ffmpeg.loadBinary(object : FFmpegLoadBinaryResponseHandler {
             override fun onFinish() {
-                Log.e(TAG,"FFMPEG onFinish")
+                Log.e(TAG, "FFMPEG onFinish")
             }
 
             override fun onSuccess() {
-                Log.e(TAG,"FFMPEG onSuccess")
+                Log.e(TAG, "FFMPEG onSuccess")
             }
 
             override fun onFailure() {
-                Log.e(TAG,"FFMPEG onFailure")
+                Log.e(TAG, "FFMPEG onFailure")
             }
 
             override fun onStart() {
@@ -90,17 +92,17 @@ class CompressVideoActivity : AppCompatActivity() {
         ffmpeg.execute(command, object : ExecuteBinaryResponseHandler() {
             override fun onFinish() {
                 super.onFinish()
-                Log.e(TAG,"Execute onFinish")
+                Log.e(TAG, "Execute onFinish")
             }
 
             override fun onSuccess(message: String?) {
                 super.onSuccess(message)
-                Log.e(TAG,"Execute onSuccess")
+                Log.e(TAG, "Execute onSuccess")
             }
 
             override fun onFailure(message: String?) {
                 super.onFailure(message)
-                Log.e(TAG,"Execute onFailure")
+                Log.e(TAG, "Execute onFailure")
             }
 
             override fun onProgress(message: String?) {
