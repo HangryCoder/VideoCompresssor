@@ -36,11 +36,10 @@ class VideoCompression(context: Context, private val compressionCallbacks: Compr
 
     fun compressVideo(bitrate: String, inputFilePath: String, outputFilePath: String) {
         val command = arrayOf(
-            "-y",
-            "-i",
+            FFMPEG_INPUT_FILE_COMMAND,
             inputFilePath,
-            "-b:v",
-            bitrate + "k",
+            FFMPEG_BIT_RATE_COMMAND,
+            bitrate + FFMPEG_KBPS,
             outputFilePath
         )
 
@@ -70,6 +69,9 @@ class VideoCompression(context: Context, private val compressionCallbacks: Compr
 
     companion object {
         private var TAG = VideoCompression::class.java.simpleName
+        private const val FFMPEG_INPUT_FILE_COMMAND = "-i"
+        private const val FFMPEG_BIT_RATE_COMMAND = "-b:v"
+        private const val FFMPEG_KBPS = "k"
     }
 
     interface CompressionCallbacks {
