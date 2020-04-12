@@ -1,4 +1,4 @@
-package com.hangrycoder.videocompressor
+package com.hangrycoder.videocompressor.activities
 
 import android.Manifest
 import android.content.Context
@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.hangrycoder.videocompressor.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +21,10 @@ class MainActivity : AppCompatActivity() {
             if (hasPermissions(this, *PERMISSIONS)) {
                 fetchVideoFromGallery()
             } else {
-                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL)
+                ActivityCompat.requestPermissions(this,
+                    PERMISSIONS,
+                    PERMISSION_ALL
+                )
             }
         }
     }
@@ -30,7 +34,9 @@ class MainActivity : AppCompatActivity() {
             type = "video/*"
         }
         startActivityForResult(
-            Intent.createChooser(intent, SELECT_VIDEO),
+            Intent.createChooser(intent,
+                SELECT_VIDEO
+            ),
             REQUEST_GALLERY_VIDEO
         )
     }

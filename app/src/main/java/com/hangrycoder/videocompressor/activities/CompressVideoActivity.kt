@@ -1,4 +1,4 @@
-package com.hangrycoder.videocompressor
+package com.hangrycoder.videocompressor.activities
 
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +10,7 @@ import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg
 import com.github.hiteshsondhi88.libffmpeg.FFmpegLoadBinaryResponseHandler
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
+import com.hangrycoder.videocompressor.R
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.UriUtils
 import com.hangrycoder.videocompressor.utils.Util
