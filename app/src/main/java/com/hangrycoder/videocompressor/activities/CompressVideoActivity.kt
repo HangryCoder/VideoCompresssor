@@ -1,5 +1,6 @@
 package com.hangrycoder.videocompressor.activities
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -129,6 +130,11 @@ class CompressVideoActivity : AppCompatActivity() {
                 super.onSuccess(message)
                 Util.showLogE(TAG, "Execute onSuccess")
                 Util.showToast(applicationContext, "Video compressed successfully")
+
+                startActivity(Intent(this@CompressVideoActivity, PlayCompressedVideoActivity::class.java).apply {
+                    putExtra(PlayCompressedVideoActivity.INTENT_COMPRESSED_VIDEO_PATH, outputFileAbsolutePath)
+                })
+                finish()
             }
 
             override fun onFailure(message: String?) {
