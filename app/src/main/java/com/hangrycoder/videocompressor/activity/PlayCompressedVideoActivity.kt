@@ -2,7 +2,6 @@ package com.hangrycoder.videocompressor.activity
 
 import android.net.Uri
 import android.os.Bundle
-import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.exoplayer2.DefaultLoadControl
@@ -60,7 +59,7 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
 
     private fun initializePlayer() {
 
-        val trackSelector = DefaultTrackSelector()
+        val trackSelector = DefaultTrackSelector(this)
         val loadControl = DefaultLoadControl()
         val renderersFactory = DefaultRenderersFactory(this)
 
@@ -80,6 +79,8 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
 
         videoView.player = exoPlayer
     }
+
+
 
     companion object {
         private val TAG = PlayCompressedVideoActivity::class.java.simpleName
