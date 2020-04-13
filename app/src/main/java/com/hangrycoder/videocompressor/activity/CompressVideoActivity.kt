@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
@@ -17,14 +16,9 @@ class CompressVideoActivity : AppCompatActivity() {
 
     private var simpleMediaPlayer: SimpleMediaPlayer? = null
     private val TAG = CompressVideoActivity::class.java.simpleName
+
     private var videoUri: Uri? = null
-
-    /* private var compressedVideosFolder: File = File(
-         Environment.getExternalStorageDirectory().path + File.separator.toString() + OUTPUT_FILE_DIRECTORY_NAME
-     )*/
-
     private var compressedVideosFolder: File? = null
-
     private var outputFileAbsolutePath: String? = null
 
     private val progressDialog: ProgressDialog by lazy {
@@ -91,13 +85,11 @@ class CompressVideoActivity : AppCompatActivity() {
             getExternalFilesDir(null)?.path + File.separator.toString() + OUTPUT_FILE_DIRECTORY_NAME
         )
         compressedVideosFolder?.createFolderIfDoesntExist()
-        Util.showLogE(TAG, "outfile $outputFileAbsolutePath")
 
         outputFileAbsolutePath = compressedVideosFolder?.absolutePath +
                 File.separator.toString() +
                 System.currentTimeMillis() + FILE_EXTENTION
-
-        outputFileAbsolutePath?: return
+        outputFileAbsolutePath ?: return
 
         videoCompression.compressVideo(
             bitrate = inputBitrate.text.toString(),
