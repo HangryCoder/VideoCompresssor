@@ -7,6 +7,14 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.exoplayer2.DefaultLoadControl
+import com.google.android.exoplayer2.DefaultRenderersFactory
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.hangrycoder.videocompressor.R
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.UriUtils
@@ -18,6 +26,7 @@ import java.io.File
 
 class CompressVideoActivity : AppCompatActivity() {
 
+    private var exoPlayer: SimpleExoPlayer? = null
     private val TAG = CompressVideoActivity::class.java.simpleName
     private var videoUri: Uri? = null
 
@@ -72,7 +81,7 @@ class CompressVideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initDataBinding()
         setIntentParams()
-        playVideo()
+        initializeExoPlayerAndPlayVideo()
     }
 
     private fun initDataBinding() {
@@ -102,10 +111,31 @@ class CompressVideoActivity : AppCompatActivity() {
         Util.showLogE(TAG, "VideoUri ${UriUtils.getImageFilePath(this, videoUri)}")
     }
 
-    private fun playVideo() {
-        videoView.setVideoURI(videoUri)
-        videoView.requestFocus()
-        videoView.start()
+    private fun initializeExoPlayerAndPlayVideo() {
+        val trackSelector = DefaultTrackSelector(this)
+        val loadControl = DefaultLoadControl()
+        val renderersFactory = DefaultRenderersFactory(this)
+
+        exoPlayer = ExoPlayerFactory.newSimpleInstance(
+            this,
+            renderersFactory, trackSelector, loadControl
+        )
+
+        val userAgent = "Compressed Video"
+        val mediaSource = ExtractorMediaSource
+            .Factory(DefaultDataSourceFactory(this, userAgent))
+            .setExtractorsFactory(DefaultExtractorsFactory())
+            .createMediaSource(videoUri)
+
+        exoPlayer?.prepare(mediaSource)
+        exoPlayer?.playWhenReady = true
+
+        playerView.player = exoPlayer
+    }
+
+    override fun onStop() {
+        super.onStop()
+        exoPlayer?.release()
     }
 
     private fun hideLoader() {

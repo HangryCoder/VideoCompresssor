@@ -61,7 +61,7 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
         exoPlayer?.prepare(mediaSource)
         exoPlayer?.playWhenReady = true
 
-        videoView.player = exoPlayer
+        playerView.player = exoPlayer
     }
 
     override fun onStop() {
