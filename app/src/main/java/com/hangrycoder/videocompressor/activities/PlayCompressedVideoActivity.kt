@@ -17,7 +17,7 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initDataBinding()
         setIntentParams()
-        playVideo()
+        initVideoAndPlay()
     }
 
     private fun initDataBinding() {
@@ -32,7 +32,7 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
         Util.showLogE(TAG, "CompressedVideoPath $videoPath")
     }
 
-    private fun playVideo() {
+    private fun initVideoAndPlay() {
         val mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
         videoView.setMediaController(mediaController)
@@ -41,6 +41,7 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
             it.setOnVideoSizeChangedListener { _, _, _ ->
                 videoView.setMediaController(mediaController)
                 mediaController.setAnchorView(videoView)
+                mediaController.show()
             }
         }
         videoView.setVideoPath(videoPath)
