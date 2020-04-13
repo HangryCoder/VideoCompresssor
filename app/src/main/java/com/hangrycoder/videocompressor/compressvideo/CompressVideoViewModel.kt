@@ -12,13 +12,13 @@ class CompressVideoViewModel(private var compressVideoView: CompressVideoContrac
 
     private var compressedVideosFolder: File? = null
     private var outputFileAbsolutePath: String? = null
-    private var simpleMediaPlayer: SimpleMediaPlayer? = null
+    var simpleMediaPlayer: SimpleMediaPlayer? = null
 
     override fun initMediaPlayer(videoUri: Uri?) {
         simpleMediaPlayer = SimpleMediaPlayer(compressVideoView.getViewContext()!!, videoUri)
     }
 
-    fun getMediaPlayer() = simpleMediaPlayer?.getPlayer()
+    override fun getPlayer() = simpleMediaPlayer?.getPlayer()
 
     override fun compressVideo(videoUri: Uri?, bitrate: String) {
         val inputFilePath =
@@ -65,7 +65,7 @@ class CompressVideoViewModel(private var compressVideoView: CompressVideoContrac
 
                 override fun onSuccess() {
                     compressVideoView.showToast("Video compressed successfully")
-                    compressVideoView.openPlayCompressVideoActivity()
+                    compressVideoView.openPlayCompressVideoActivity(outputFileAbsolutePath)
                 }
 
                 override fun onFailure() {
