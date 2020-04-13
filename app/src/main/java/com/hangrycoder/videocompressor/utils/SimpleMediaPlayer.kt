@@ -11,7 +11,7 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
-class SimpleMediaPlayer(context: Context, videoUri: Uri) {
+class SimpleMediaPlayer(context: Context, videoUri: Uri?) {
 
     private val exoPlayer: SimpleExoPlayer
 
