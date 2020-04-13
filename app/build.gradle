@@ -28,6 +28,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -43,4 +47,8 @@ dependencies {
     //FFMPEG
     def ffmpegVersion = "0.3.2"
     implementation "com.writingminds:FFmpegAndroid:$ffmpegVersion"
+
+    //Exoplayer
+    def exoplayerVersion = "2.11.4"
+    implementation "com.google.android.exoplayer:exoplayer:$exoplayerVersion"
 }
