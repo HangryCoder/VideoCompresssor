@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
@@ -89,9 +88,6 @@ class CompressVideoActivity : AppCompatActivity() {
     }
 
     private fun playVideo() {
-        val mediaController = MediaController(this)
-        mediaController.setAnchorView(videoView)
-        videoView.setMediaController(mediaController)
         videoView.setVideoURI(videoUri)
         videoView.requestFocus()
         videoView.start()
