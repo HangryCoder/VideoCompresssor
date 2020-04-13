@@ -74,19 +74,7 @@ class CompressVideoActivity : AppCompatActivity() {
         initDataBinding()
         setIntentParams()
         playVideo()
-
-        compressVideoButton.setOnClickListener {
-            val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
-            inputFilePath ?: return@setOnClickListener
-
-            compressedVideosFolder.createFolderIfDoesntExist()
-
-            videoCompression.compressVideo(
-                bitrate = inputBitrate.text.toString(),
-                inputFilePath = inputFilePath,
-                outputFilePath = outputFileAbsolutePath
-            )
-        }
+        compressVideoListener()
     }
 
     private fun initDataBinding() {
@@ -107,6 +95,21 @@ class CompressVideoActivity : AppCompatActivity() {
         videoView.setVideoURI(videoUri)
         videoView.requestFocus()
         videoView.start()
+    }
+
+    private fun compressVideoListener() {
+        compressVideoButton.setOnClickListener {
+            val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
+            inputFilePath ?: return@setOnClickListener
+
+            compressedVideosFolder.createFolderIfDoesntExist()
+
+            videoCompression.compressVideo(
+                bitrate = inputBitrate.text.toString(),
+                inputFilePath = inputFilePath,
+                outputFilePath = outputFileAbsolutePath
+            )
+        }
     }
 
     private fun hideLoader() {
