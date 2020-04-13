@@ -49,17 +49,16 @@ class CompressVideoActivity : AppCompatActivity() {
 
             override fun onSuccess() {
                 Util.showToast(applicationContext, "Video compressed successfully")
-
-                startActivity(
-                    Intent(
-                        this@CompressVideoActivity,
-                        PlayCompressedVideoActivity::class.java
-                    ).apply {
-                        putExtra(
-                            PlayCompressedVideoActivity.INTENT_COMPRESSED_VIDEO_PATH,
-                            outputFileAbsolutePath
-                        )
-                    })
+                val intent = Intent(
+                    this@CompressVideoActivity,
+                    PlayCompressedVideoActivity::class.java
+                ).apply {
+                    putExtra(
+                        PlayCompressedVideoActivity.INTENT_COMPRESSED_VIDEO_PATH,
+                        outputFileAbsolutePath
+                    )
+                }
+                startActivity(intent)
                 finish()
             }
 
