@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="compressVideoClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -45,6 +51,7 @@
             android:alpha="@{inputBitrate.text.length() > 0 ? 1.0f : 0.5f}"
             android:enabled="@{inputBitrate.text.length() > 0, default=false}"
             android:hint="@string/compress_video"
+            android:onClick="@{compressVideoClick}"
             app:layout_constraintEnd_toEndOf="@+id/inputBitrate"
             app:layout_constraintStart_toStartOf="@+id/inputBitrate"
             app:layout_constraintTop_toBottomOf="@+id/inputBitrate" />

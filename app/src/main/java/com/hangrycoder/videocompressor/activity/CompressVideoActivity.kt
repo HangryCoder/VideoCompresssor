@@ -1,4 +1,4 @@
-package com.hangrycoder.videocompressor.activities
+package com.hangrycoder.videocompressor.activity
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -73,12 +73,27 @@ class CompressVideoActivity : AppCompatActivity() {
         initDataBinding()
         setIntentParams()
         playVideo()
-        compressVideoListener()
     }
 
     private fun initDataBinding() {
-        DataBindingUtil.setContentView<ActivityCompressVideoBindingImpl>(
+        val binding = DataBindingUtil.setContentView<ActivityCompressVideoBindingImpl>(
             this, R.layout.activity_compress_video
+        )
+        binding.setCompressVideoClick {
+            createOutputFolderIfDoesntExistAndCompressVideo()
+        }
+    }
+
+    private fun createOutputFolderIfDoesntExistAndCompressVideo() {
+        val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
+        inputFilePath ?: return
+
+        compressedVideosFolder.createFolderIfDoesntExist()
+
+        videoCompression.compressVideo(
+            bitrate = inputBitrate.text.toString(),
+            inputFilePath = inputFilePath,
+            outputFilePath = outputFileAbsolutePath
         )
     }
 
@@ -91,21 +106,6 @@ class CompressVideoActivity : AppCompatActivity() {
         videoView.setVideoURI(videoUri)
         videoView.requestFocus()
         videoView.start()
-    }
-
-    private fun compressVideoListener() {
-        compressVideoButton.setOnClickListener {
-            val inputFilePath = UriUtils.getImageFilePath(this, videoUri)
-            inputFilePath ?: return@setOnClickListener
-
-            compressedVideosFolder.createFolderIfDoesntExist()
-
-            videoCompression.compressVideo(
-                bitrate = inputBitrate.text.toString(),
-                inputFilePath = inputFilePath,
-                outputFilePath = outputFileAbsolutePath
-            )
-        }
     }
 
     private fun hideLoader() {

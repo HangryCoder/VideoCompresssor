@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".activities.SelectVideoActivity"
+            android:name=".activity.SelectVideoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +24,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CompressVideoActivity"
+            android:name=".activity.CompressVideoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PlayCompressedVideoActivity"
+            android:name=".activity.PlayCompressedVideoActivity"
             android:screenOrientation="portrait" />
     </application>
 

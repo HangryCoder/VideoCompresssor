@@ -1,4 +1,4 @@
-package com.hangrycoder.videocompressor.activities
+package com.hangrycoder.videocompressor.activity
 
 import android.os.Bundle
 import android.widget.MediaController
