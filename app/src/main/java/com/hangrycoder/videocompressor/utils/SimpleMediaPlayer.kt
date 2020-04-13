@@ -24,7 +24,7 @@ class SimpleMediaPlayer(context: Context, videoUri: Uri?) {
             context, renderersFactory, trackSelector, loadControl
         )
 
-        val userAgent = "Compressed Video"
+        val userAgent = "Simple Media Player"
         val mediaSource = ExtractorMediaSource
             .Factory(DefaultDataSourceFactory(context, userAgent))
             .setExtractorsFactory(DefaultExtractorsFactory())
