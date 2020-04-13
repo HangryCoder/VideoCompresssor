@@ -34,7 +34,7 @@ class VideoCompression(context: Context, private val compressionCallbacks: Compr
         }
     }
 
-    fun compressVideo(bitrate: String, inputFilePath: String, outputFilePath: String) {
+    fun compressVideo(bitrate: String, inputFilePath: String?, outputFilePath: String?) {
         val command = arrayOf(
             FFMPEG_INPUT_FILE_COMMAND,
             inputFilePath,
