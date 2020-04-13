@@ -1,4 +1,4 @@
-package com.hangrycoder.videocompressor.activity
+package com.hangrycoder.videocompressor.selectvideo
 
 import android.Manifest
 import android.content.Context
