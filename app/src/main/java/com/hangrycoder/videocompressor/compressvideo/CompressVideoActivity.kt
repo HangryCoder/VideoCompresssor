@@ -1,4 +1,4 @@
-package com.hangrycoder.videocompressor.activity
+package com.hangrycoder.videocompressor.compressvideo
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
+import com.hangrycoder.videocompressor.activity.PlayCompressedVideoActivity
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.*
 import kotlinx.android.synthetic.main.activity_compress_video.*

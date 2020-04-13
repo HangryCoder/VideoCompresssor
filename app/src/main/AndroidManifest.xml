@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CompressVideoActivity"
+            android:name=".compressvideo.CompressVideoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PlayCompressedVideoActivity"
