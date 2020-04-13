@@ -8,7 +8,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
-import com.hangrycoder.videocompressor.activity.PlayCompressedVideoActivity
+import com.hangrycoder.videocompressor.playcompressedvideo.PlayCompressedVideoActivity
 import com.hangrycoder.videocompressor.databinding.ActivityCompressVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.*
 import kotlinx.android.synthetic.main.activity_compress_video.*

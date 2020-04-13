@@ -27,7 +27,7 @@
             android:name=".compressvideo.CompressVideoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.PlayCompressedVideoActivity"
+            android:name=".playcompressedvideo.PlayCompressedVideoActivity"
             android:screenOrientation="portrait" />
     </application>
 

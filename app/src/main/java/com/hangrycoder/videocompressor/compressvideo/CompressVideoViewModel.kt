@@ -12,7 +12,7 @@ class CompressVideoViewModel(private var compressVideoView: CompressVideoContrac
 
     private var compressedVideosFolder: File? = null
     private var outputFileAbsolutePath: String? = null
-    var simpleMediaPlayer: SimpleMediaPlayer? = null
+    private var simpleMediaPlayer: SimpleMediaPlayer? = null
 
     override fun initMediaPlayer(videoUri: Uri?) {
         simpleMediaPlayer = SimpleMediaPlayer(compressVideoView.getViewContext()!!, videoUri)

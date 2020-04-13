@@ -1,24 +1,25 @@
-package com.hangrycoder.videocompressor.activity
+package com.hangrycoder.videocompressor.playcompressedvideo
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
 import com.hangrycoder.videocompressor.databinding.ActivityPlayCompressedVideoBindingImpl
-import com.hangrycoder.videocompressor.utils.SimpleMediaPlayer
 import com.hangrycoder.videocompressor.utils.Util
 import kotlinx.android.synthetic.main.activity_play_compressed_video.*
 
-class PlayCompressedVideoActivity : AppCompatActivity() {
+class PlayCompressedVideoActivity : AppCompatActivity(),
+    PlayCompressedVideoContract.PlayCompressedVideoView {
 
     private var videoPath: String? = null
-    private var simpleMediaPlayer: SimpleMediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDataBinding()
         setIntentParams()
+        initViewModel()
         initializePlayerAndPlayVideo()
     }
 
@@ -34,16 +35,23 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
         Util.showLogE(TAG, "CompressedVideoPath $videoPath")
     }
 
+    private lateinit var playCompressedViewModel: PlayCompressedViewModel
+    private fun initViewModel() {
+        playCompressedViewModel = PlayCompressedViewModel(this)
+    }
+
     private fun initializePlayerAndPlayVideo() {
-        simpleMediaPlayer = SimpleMediaPlayer(this, Uri.parse(videoPath))
-        playerView.player = simpleMediaPlayer?.getPlayer()
-        simpleMediaPlayer?.play()
+        playCompressedViewModel.initMediaPlayer(Uri.parse(videoPath))
+        playerView.player = playCompressedViewModel.getPlayer()
+        playCompressedViewModel.playVideo()
     }
 
     override fun onStop() {
         super.onStop()
-        simpleMediaPlayer?.stop()
+        playCompressedViewModel.stopVideo()
     }
+
+    override fun getViewContext(): Context? = this
 
     companion object {
         private val TAG = PlayCompressedVideoActivity::class.java.simpleName
