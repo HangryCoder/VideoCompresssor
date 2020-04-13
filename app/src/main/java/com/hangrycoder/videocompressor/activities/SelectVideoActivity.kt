@@ -7,21 +7,34 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
+import com.hangrycoder.videocompressor.databinding.ActivitySelectVideoBindingImpl
 import kotlinx.android.synthetic.main.activity_select_video.*
 
 class SelectVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_video)
+        initDataBinding()
+        selectVideoListener()
+    }
 
+    private fun initDataBinding() {
+        DataBindingUtil.setContentView<ActivitySelectVideoBindingImpl>(
+            this,
+            R.layout.activity_select_video
+        )
+    }
+
+    private fun selectVideoListener() {
         selectVideoButton.setOnClickListener {
             //Check if storage permission is granted
             if (hasPermissions(this, *PERMISSIONS)) {
                 fetchVideoFromGallery()
             } else {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(
+                    this,
                     PERMISSIONS,
                     PERMISSION_ALL
                 )
@@ -34,7 +47,8 @@ class SelectVideoActivity : AppCompatActivity() {
             type = "video/*"
         }
         startActivityForResult(
-            Intent.createChooser(intent,
+            Intent.createChooser(
+                intent,
                 SELECT_VIDEO
             ),
             REQUEST_GALLERY_VIDEO
