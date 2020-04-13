@@ -27,6 +27,13 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
         val mediaController = MediaController(this)
         mediaController.setAnchorView(videoView)
         videoView.setMediaController(mediaController)
+        //This is the make the media controller appear above the video view
+        videoView.setOnPreparedListener {
+            it.setOnVideoSizeChangedListener { _, _, _ ->
+                videoView.setMediaController(mediaController)
+                mediaController.setAnchorView(videoView)
+            }
+        }
         videoView.setVideoPath(videoPath)
         videoView.requestFocus()
         videoView.start()
