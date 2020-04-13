@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
@@ -18,14 +19,14 @@ import kotlinx.android.synthetic.main.activity_play_compressed_video.*
 
 class PlayCompressedVideoActivity : AppCompatActivity() {
 
+    private var exoPlayer: SimpleExoPlayer? = null
     private var videoPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initDataBinding()
         setIntentParams()
-        // initVideoAndPlay()
-        initializePlayer()
+        initializeExoPlayerAndPlayVideo()
     }
 
     private fun initDataBinding() {
@@ -40,30 +41,13 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
         Util.showLogE(TAG, "CompressedVideoPath $videoPath")
     }
 
-    /*  private fun initVideoAndPlay() {
-          val mediaController = MediaController(this)
-          mediaController.setAnchorView(videoView)
-          videoView.setMediaController(mediaController)
-          //This is the make the media controller appear above the video view
-          videoView.setOnPreparedListener {
-              it.setOnVideoSizeChangedListener { _, _, _ ->
-                  videoView.setMediaController(mediaController)
-                  mediaController.setAnchorView(videoView)
-                  mediaController.show()
-              }
-          }
-          videoView.setVideoPath(videoPath)
-          videoView.requestFocus()
-          videoView.start()
-      }*/
-
-    private fun initializePlayer() {
+    private fun initializeExoPlayerAndPlayVideo() {
 
         val trackSelector = DefaultTrackSelector(this)
         val loadControl = DefaultLoadControl()
         val renderersFactory = DefaultRenderersFactory(this)
 
-        val exoPlayer = ExoPlayerFactory.newSimpleInstance(
+        exoPlayer = ExoPlayerFactory.newSimpleInstance(
             this,
             renderersFactory, trackSelector, loadControl
         )
@@ -74,13 +58,16 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
             .setExtractorsFactory(DefaultExtractorsFactory())
             .createMediaSource(Uri.parse(videoPath))
 
-        exoPlayer.prepare(mediaSource)
-        exoPlayer.playWhenReady = true
+        exoPlayer?.prepare(mediaSource)
+        exoPlayer?.playWhenReady = true
 
         videoView.player = exoPlayer
     }
 
-
+    override fun onStop() {
+        super.onStop()
+        exoPlayer?.release()
+    }
 
     companion object {
         private val TAG = PlayCompressedVideoActivity::class.java.simpleName
