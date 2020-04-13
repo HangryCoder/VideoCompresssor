@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 import com.hangrycoder.videocompressor.R
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class SelectVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
