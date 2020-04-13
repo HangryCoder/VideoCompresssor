@@ -3,7 +3,9 @@ package com.hangrycoder.videocompressor.activities
 import android.os.Bundle
 import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
+import com.hangrycoder.videocompressor.databinding.ActivityPlayCompressedVideoBindingImpl
 import com.hangrycoder.videocompressor.utils.Util
 import kotlinx.android.synthetic.main.activity_play_compressed_video.*
 
@@ -13,9 +15,16 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_play_compressed_video)
+        initDataBinding()
         setIntentParams()
         playVideo()
+    }
+
+    private fun initDataBinding() {
+        DataBindingUtil.setContentView<ActivityPlayCompressedVideoBindingImpl>(
+            this,
+            R.layout.activity_play_compressed_video
+        )
     }
 
     private fun setIntentParams() {
