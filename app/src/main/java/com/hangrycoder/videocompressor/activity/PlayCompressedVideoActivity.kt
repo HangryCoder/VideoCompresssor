@@ -14,13 +14,15 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.hangrycoder.videocompressor.R
 import com.hangrycoder.videocompressor.databinding.ActivityPlayCompressedVideoBindingImpl
+import com.hangrycoder.videocompressor.utils.SimpleMediaPlayer
 import com.hangrycoder.videocompressor.utils.Util
 import kotlinx.android.synthetic.main.activity_play_compressed_video.*
 
 class PlayCompressedVideoActivity : AppCompatActivity() {
 
-    private var exoPlayer: SimpleExoPlayer? = null
+    //private var exoPlayer: SimpleExoPlayer? = null
     private var videoPath: String? = null
+    private var simpleMediaPlayer: SimpleMediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,30 +45,32 @@ class PlayCompressedVideoActivity : AppCompatActivity() {
 
     private fun initializeExoPlayerAndPlayVideo() {
 
-        val trackSelector = DefaultTrackSelector(this)
-        val loadControl = DefaultLoadControl()
-        val renderersFactory = DefaultRenderersFactory(this)
+        simpleMediaPlayer = SimpleMediaPlayer(this, Uri.parse(videoPath))
+        /* val trackSelector = DefaultTrackSelector(this)
+         val loadControl = DefaultLoadControl()
+         val renderersFactory = DefaultRenderersFactory(this)
 
-        exoPlayer = ExoPlayerFactory.newSimpleInstance(
-            this,
-            renderersFactory, trackSelector, loadControl
-        )
+         exoPlayer = ExoPlayerFactory.newSimpleInstance(
+             this,
+             renderersFactory, trackSelector, loadControl
+         )
 
-        val userAgent = "Compressed Video"
-        val mediaSource = ExtractorMediaSource
-            .Factory(DefaultDataSourceFactory(this, userAgent))
-            .setExtractorsFactory(DefaultExtractorsFactory())
-            .createMediaSource(Uri.parse(videoPath))
+         val userAgent = "Compressed Video"
+         val mediaSource = ExtractorMediaSource
+             .Factory(DefaultDataSourceFactory(this, userAgent))
+             .setExtractorsFactory(DefaultExtractorsFactory())
+             .createMediaSource(Uri.parse(videoPath))
 
-        exoPlayer?.prepare(mediaSource)
-        exoPlayer?.playWhenReady = true
+         exoPlayer?.prepare(mediaSource)
+         exoPlayer?.playWhenReady = true*/
 
-        playerView.player = exoPlayer
+        playerView.player = simpleMediaPlayer?.getPlayer()
+        simpleMediaPlayer?.play()
     }
 
     override fun onStop() {
         super.onStop()
-        exoPlayer?.release()
+        simpleMediaPlayer?.stop()
     }
 
     companion object {
