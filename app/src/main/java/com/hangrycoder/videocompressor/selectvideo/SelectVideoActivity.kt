@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.hangrycoder.videocompressor.R
 import com.hangrycoder.videocompressor.compressvideo.CompressVideoActivity
 import com.hangrycoder.videocompressor.databinding.ActivitySelectVideoBindingImpl
-
+//Small change
 class SelectVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
